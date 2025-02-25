@@ -1,15 +1,12 @@
-import { subtle, getRandomValues } from "crypto";
-
 const SALT_LENGTH = 16;
 const ITERATIONS = 100000;
 const KEY_LENGTH = 64;
 const DIGEST = "SHA-256";
 
 export async function hashPassword(password: string): Promise<string> {
-  const salt = new Uint8Array(SALT_LENGTH);
-  getRandomValues(salt);
+  const salt = crypto.getRandomValues(new Uint8Array(SALT_LENGTH));
 
-  const keyMaterial = await subtle.importKey(
+  const keyMaterial = await crypto.subtle.importKey(
     "raw",
     new TextEncoder().encode(password),
     { name: "PBKDF2" },
@@ -17,7 +14,7 @@ export async function hashPassword(password: string): Promise<string> {
     ["deriveBits"],
   );
 
-  const key = await subtle.deriveBits(
+  const key = await crypto.subtle.deriveBits(
     {
       name: "PBKDF2",
       salt: salt,
@@ -44,7 +41,7 @@ export async function verifyPassword(
   const salt = hashArray.slice(0, SALT_LENGTH);
   const hash = hashArray.slice(SALT_LENGTH);
 
-  const keyMaterial = await subtle.importKey(
+  const keyMaterial = await crypto.subtle.importKey(
     "raw",
     new TextEncoder().encode(password),
     { name: "PBKDF2" },
@@ -52,7 +49,7 @@ export async function verifyPassword(
     ["deriveBits"],
   );
 
-  const key = await subtle.deriveBits(
+  const key = await crypto.subtle.deriveBits(
     {
       name: "PBKDF2",
       salt: salt,
