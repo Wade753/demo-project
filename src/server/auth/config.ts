@@ -94,7 +94,7 @@ export const authConfig = {
         if (!user) {
           throw new Error("User not found");
         }
-        if (!adapter?.createSession) {
+        if (!adapter.createSession) {
           throw new Error("Adapter does not implement createSession");
         }
         const createSession = await adapter.createSession({
