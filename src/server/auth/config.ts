@@ -58,7 +58,7 @@ export const authConfig = {
         }
         const isPasswordValid = await verifyPassword(
           password as string,
-          dbUser.password as string,
+          dbUser.password,
         );
         if (!isPasswordValid) {
           throw new Error("Invalid password");
@@ -74,7 +74,7 @@ export const authConfig = {
     session: ({ session }) => ({
       ...session,
     }),
-    async jwt({ token, account }) {
+    jwt({ token, account }) {
       if (account?.provider === "credentials") {
         token.credentials = true;
       }
