@@ -56,6 +56,9 @@ export const authConfig = {
         if (!dbUser) {
           throw new Error("User not found");
         }
+        if (!dbUser?.password) {
+          throw new Error("User not found");
+        }
         const isPasswordValid = await verifyPassword(
           password as string,
           dbUser.password,
