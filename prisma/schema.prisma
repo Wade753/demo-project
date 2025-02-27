@@ -30,7 +30,6 @@ model Post {
 model Account {
     id                       String  @id @default(cuid())
     userId                   String
-    password                 String?
     type                     String
     provider                 String
     providerAccountId        String
